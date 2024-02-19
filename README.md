@@ -110,9 +110,9 @@ Data dictionary can be found in file 'data_dictionary.pdf'.
 ### 5.2 How often data should be updated
 All data should be updated on a monthly basis if possible, to ensure data is always up to date for the climate model. Emissions data should be updated yearly. 
 ### 5.3 Problem scenarios
-##### Data was increased by 100x
+#### Data was increased by 100x
 Redshift is able to handle larger datasets, however an increase in resources might be required. Additionally, using Spark to process larger datasets is recommended.
-##### Data populates a dashboard that must be updated on a daily basis by 7am every day
+#### Data populates a dashboard that must be updated on a daily basis by 7am every day
 Apache Airflow can be used to support this requirement. Apache Airflow allows the user to determine how frequent they'd like the ETL pipeline to run, and at whatever time they determine.
-##### The database needs to be accessed by 100+ people
+#### The database needs to be accessed by 100+ people
 Redshift is a sufficient enough large-scale database and can be accessed by 100+ people simultaneously. It can support multiple users querying data concurrently
