@@ -11,10 +11,10 @@ The goal of this project is to build a data warehouse as a source-of-truth datab
 5. Project write up
 
 ## 1. Project Scope and Gathering Data
-#### Scope of project
+### Scope of project
 This project aims to build an ELT pipeline that extracts raw data from S3, stages the data in Redshift, and then transforms the data into a set of fact and dimension tables accessible to climate data scientists. The two main tools used will be AWS S3 for data storage purposes and AWS Redshift as a warehouse. Data exploration and the development of data processing steps before running the ETL will be run on Python Pandas within a notebook. SQL in Python will be used to create and load tables.
 
-#### Data used
+### Data used
 Data used are:
 1. I94 Immigration Data (SAS): data from the United States National Tourism and Trade Office. It contains information on arrivals in the United States, such as date of arrival, passenger residence country, visa type, and mode of transport.
 
@@ -27,34 +27,34 @@ Data used are:
 5. World Emissions Data (CSV): data from Kaggle. It contains information on average CO2 emissions by country each year from the year 1960 until 2016.
 
 ## 2. Explore, Assess, Clean Data
-#### Data issues
-    1. I94 Immigration Data
-        a. Not all column names are necessarily clear 
-        b. Contains unnecessary columns that are empty or are not required in the final tables
-        c. Some columns do not have the right data types
-        d. Some columns (i.e., 'arrival_date' and 'departure_date' are in SAS date formats
+### Data issues
+1.I94 Immigration Data
+    a. Not all column names are necessarily clear 
+    b. Contains unnecessary columns that are empty or are not required in the final tables
+    c. Some columns do not have the right data types
+    d. Some columns (i.e., 'arrival_date' and 'departure_date' are in SAS date formats
     
-    2. I94 Immigration Data Labels
-        a. Has mulitple data in one file as a data dictionary and must be split
+2. I94 Immigration Data Labels
+    a. Has mulitple data in one file as a data dictionary and must be split
         
-    3. Arrivals Data
-        a. Contains unnecessary rows that are empty or are not required in the final tables
-        b. Contains unnecessary columns that are empty or are not required in the final tables
-        c. Not all column names are necessarily clear
-        d. Columns and rows are difficult to process and therefore must be pivoted to be more consistent
-        e. Some columns do not have the right data types
-        f. A date column (i.e., 'arrival_date') did not have the correct date format
-    
-    4. World Temperature Data
-        a. Contains temperature data for all cities in the world - only US data is needed
-        b. Not all column names are necessarily clear
-        
-    5. World Emissions Data
-        a. Contains emissions data for all countries in the world - only US data is needed
-        b. Not all column names are necessarily clear
-        
+3. Arrivals Data
+    a. Contains unnecessary rows that are empty or are not required in the final tables
+    b. Contains unnecessary columns that are empty or are not required in the final tables
+    c. Not all column names are necessarily clear
+    d. Columns and rows are difficult to process and therefore must be pivoted to be more consistent
+    e. Some columns do not have the right data types
+    f. A date column (i.e., 'arrival_date') did not have the correct date format
 
-#### Cleaning steps
+4. World Temperature Data
+    a. Contains temperature data for all cities in the world - only US data is needed
+    b. Not all column names are necessarily clear
+    
+5. World Emissions Data
+    a. Contains emissions data for all countries in the world - only US data is needed
+    b. Not all column names are necessarily clear
+    
+
+### Cleaning steps
 1. I94 Immigration Data: all columns will be renamed and those that are not required in the final tables will be dropped. SAS date formats are changed to pandas date format and other columns' data types will be addressed accordingly.
     
 2. I94 Immigration Data Labels: this data dictionary will be split into 3 different files - code and country, code and port, and code and state. Code and country contains information on the country equivalent for each code that appears in I94 Immigration Data's 'i94cit' and 'i94res' columns. Code and port contains port equivalent for each code that appears in I94 Immigration Data's 'i94port' column. Code and state contains state equivalent for each code that appears in I94 Immigration Data's 'i94addr' column.
@@ -66,10 +66,10 @@ Data used are:
 5. World Emissions Data: data will be sectioned to only contain emissions data on United States and its cities. All columns are also renamed to make data more consistent.
 
 ## 3. Define the Data Model
-#### 3.1 Conceptual data model
+### 3.1 Conceptual data model
 Data model can be found in file 'data_model.pdf'
 
-#### 3.2 Mapping out data pipelines
+### 3.2 Mapping out data pipelines
 1. Data processing is run locally and clean files are uploaded into S3 bucket (s3://bucket-name-here/processed_data/)
 2. Staging tables are dropped and then created in Redshift
 3. Data from S3 is copied into staging tables
@@ -79,15 +79,27 @@ Data model can be found in file 'data_model.pdf'
 7. Data quality checks are run
 
 ## 4. Run Pipelines to Model the Data
-#### 4.1 Create the data model
-create_tables.py and etl.py are the two scripts to be run to create the data model.
-#### 4.2 Data quality checks
+### 4.1 Create the data model
+create_tables.py and etl.py are the two scripts to be run to create the data model. Below is the code to execute the two scripts. %%time is included to track the time taken for each script to run.
+
+    %%time
+    !python create_tables.py
+
+    %%time
+    !python etl.py
+
+### 4.2 Data quality checks
 Data quality checks will ensure:
 1. Fact and dimension tables are not empty after triggering ETL pipeline
 2. Records in all fact and dimension tables are unique (there are no duplicates)
 
-data_quality_checks.py is the script to run to perform data quality checks. Logging is included to make sure data quality check outcomes are clear.
-#### 4.3 Data dictionary
+data_quality_checks.py is the script to run to perform data quality checks. Below is the code to execute the script. Logging is included to make sure data quality check outcomes are clear.
+
+    from data_quality_checks import data_quality_checks
+
+    data_quality_checks()
+
+### 4.3 Data dictionary
 Data dictionary can be found in file 'data_dictionary.pdf'.
 
 ## 5. Project Write Up
