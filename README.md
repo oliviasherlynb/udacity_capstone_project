@@ -3,6 +3,8 @@
 ### Project description and goals
 The goal of this project is to build a data warehouse as a source-of-truth database, allowing a group of climate data scientists to have easier access to the data they need for their climate model and for further insights exploration. They're looking to better undrestand the relationship between world travel, world temperature, and world emissions in the United States.
 
+A more in depth exploration into the project can be found in the file capstone_project.ipynb.
+
 #### Project steps:
 1. Scope the project and gather data
 2. Explore, assess, and clean the data
